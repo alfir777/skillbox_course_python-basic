@@ -11,4 +11,12 @@
 
 educational_grant, expenses = 10000, 12000
 
-# TODO здесь ваш код
+family_money = 0
+
+length = 1
+while length <= 10:
+    family_money = family_money + educational_grant - expenses
+    expenses = expenses * 1.03
+    length += 1
+family_money = - round(family_money, 2)
+print('Студенту надо попросить', family_money, 'рублей')

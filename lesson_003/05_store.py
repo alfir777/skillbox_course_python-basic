@@ -46,8 +46,16 @@ store = {
 #         подсчет стоимости товара
 #     вывод на консоль количества и стоимости товара на складе
 
-# TODO здесь ваш код
+for product_name, product_code in goods.items():
 
+    product_quantity = 0
+    product_cost = 0
+
+    for position in store[product_code]:
+        product_quantity += position['quantity']
+        product_cost += position['price'] * position['quantity']
+
+    print(product_name, '-', product_quantity, ' шт, стоимость', product_cost, 'руб')
 
 
 
