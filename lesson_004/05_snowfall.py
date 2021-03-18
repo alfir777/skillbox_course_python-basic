@@ -12,7 +12,7 @@ N = 20
 
 # Пригодятся функции
 # sd.get_point()
-# sd.snowflake()
+# sd.snowf lake()
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()

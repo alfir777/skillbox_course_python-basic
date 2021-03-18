@@ -2,6 +2,7 @@
 
 import simple_draw as sd
 
+
 # Часть 1.
 # Написать функции рисования равносторонних геометрических фигур:
 # - треугольника
@@ -27,7 +28,82 @@ import simple_draw as sd
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 
-# TODO здесь ваш код
+def triangle(point, angle=0):
+    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
+    v1.draw()
+
+    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 120, length=200, width=3)
+    v2.draw()
+
+    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 240, length=200, width=3)
+    v3.draw()
+
+
+def square(point, angle=0):
+    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
+    v1.draw()
+
+    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 90, length=200, width=3)
+    v2.draw()
+
+    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 180, length=200, width=3)
+    v3.draw()
+
+    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 270, length=200, width=3)
+    v4.draw()
+
+
+def pentagon(point, angle=0):
+    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
+    v1.draw()
+
+    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 72, length=200, width=3)
+    v2.draw()
+
+    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 144, length=200, width=3)
+    v3.draw()
+
+    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 216, length=200, width=3)
+    v4.draw()
+
+    v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 288, length=200, width=3)
+    v5.draw()
+
+
+def hexagon(point, angle=0):
+    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
+    v1.draw()
+
+    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 60, length=200, width=3)
+    v2.draw()
+
+    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 120, length=200, width=3)
+    v3.draw()
+
+    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 180, length=200, width=3)
+    v4.draw()
+
+    v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 240, length=200, width=3)
+    v5.draw()
+
+    v6 = sd.get_vector(start_point=v5.end_point, angle=angle + 300, length=200, width=3)
+    v6.draw()
+
+
+sd.resolution = (900, 900)
+
+point_0 = sd.get_point(100, 700)
+triangle(point=point_0, angle=50)
+
+point_0 = sd.get_point(500, 600)
+square(point=point_0, angle=50)
+
+point_0 = sd.get_point(200, 200)
+pentagon(point=point_0, angle=50)
+
+point_0 = sd.get_point(600, 100)
+hexagon(point=point_0, angle=50)
+
 
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
