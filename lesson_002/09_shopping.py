@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from pprint import pprint
+
 # Есть словарь магазинов с распродажами
 
 shops = {
@@ -50,6 +52,6 @@ sweets = {
         {'shop': 'магнит', 'price': 62.99},
     ],
 }
-print(sweets)
+pprint(sweets)
 # Указать надо только по 2 магазина с минимальными ценами
 

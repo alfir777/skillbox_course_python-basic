@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import math
+
 # Есть значение радиуса круга
 radius = 42
 
@@ -10,7 +12,7 @@ radius = 42
 #       пи возьмите равным 3.1415926
 #       точность указывается в функции round()
 # S = π * r2
-area_circle = 3.1415926 * (radius ** 2)
+area_circle = math.pi * (radius ** 2)
 print(round(area_circle, 4))
 
 # Далее, пусть есть координаты точки

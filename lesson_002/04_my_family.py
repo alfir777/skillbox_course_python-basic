@@ -25,3 +25,10 @@ growth_family += my_family_height[1][1]
 growth_family += my_family_height[2][1]
 growth_family += my_family_height[3][1]
 print(f'Общий рост моей семьи - {growth_family} см')
+
+# используя цикл for
+growth_family = 0
+for i in range(len(my_family_height)):
+    growth_family += my_family_height[i][1]
+
+print(f'Общий рост моей семьи - {growth_family} см')
