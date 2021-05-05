@@ -28,81 +28,56 @@ import simple_draw as sd
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 
-def triangle(point, angle=0):
-    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
-    v1.draw()
 
-    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 120, length=200, width=3)
-    v2.draw()
-
-    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 240, length=200, width=3)
-    v3.draw()
-
-
-def square(point, angle=0):
-    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
-    v1.draw()
-
-    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 90, length=200, width=3)
-    v2.draw()
-
-    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 180, length=200, width=3)
-    v3.draw()
-
-    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 270, length=200, width=3)
-    v4.draw()
+def draw_figure(start_point, side_count, angle, length):
+    vector = start_point
+    angle_step = 360 / side_count
+    step = angle_step
+    for side in range(side_count):
+        if side == 0:
+            vector = sd.get_vector(start_point=vector, angle=angle, length=length+3)
+        elif side == side_count-1:
+            sd.line(vector.end_point, start_point)
+            break
+        else:
+            vector = sd.get_vector(start_point=vector.end_point, angle=angle + step, length=length)
+            step += angle_step
+        vector.draw()
 
 
-def pentagon(point, angle=0):
-    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
-    v1.draw()
-
-    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 72, length=200, width=3)
-    v2.draw()
-
-    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 144, length=200, width=3)
-    v3.draw()
-
-    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 216, length=200, width=3)
-    v4.draw()
-
-    v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 288, length=200, width=3)
-    v5.draw()
+def triangle(start_point, angle=0, length=0):
+    side_count = 3
+    draw_figure(start_point=start_point, side_count=side_count, angle=angle, length=length)
 
 
-def hexagon(point, angle=0):
-    v1 = sd.get_vector(start_point=point, angle=angle, length=200, width=3)
-    v1.draw()
-
-    v2 = sd.get_vector(start_point=v1.end_point, angle=angle + 60, length=200, width=3)
-    v2.draw()
-
-    v3 = sd.get_vector(start_point=v2.end_point, angle=angle + 120, length=200, width=3)
-    v3.draw()
-
-    v4 = sd.get_vector(start_point=v3.end_point, angle=angle + 180, length=200, width=3)
-    v4.draw()
-
-    v5 = sd.get_vector(start_point=v4.end_point, angle=angle + 240, length=200, width=3)
-    v5.draw()
-
-    v6 = sd.get_vector(start_point=v5.end_point, angle=angle + 300, length=200, width=3)
-    v6.draw()
+def square(start_point, angle=0, length=0):
+    side_count = 4
+    draw_figure(start_point=start_point, side_count=side_count, angle=angle, length=length)
 
 
-sd.resolution = (900, 900)
+def pentagon(start_point, angle=0, length=0):
+    side_count = 5
+    draw_figure(start_point=start_point, side_count=side_count, angle=angle, length=length)
 
-point_0 = sd.get_point(100, 700)
-triangle(point=point_0, angle=50)
 
-point_0 = sd.get_point(500, 600)
-square(point=point_0, angle=50)
+def hexagon(start_point, angle=0, length=0):
+    side_count = 6
+    draw_figure(start_point=start_point, side_count=side_count, angle=angle, length=length)
 
-point_0 = sd.get_point(200, 200)
-pentagon(point=point_0, angle=50)
 
-point_0 = sd.get_point(600, 100)
-hexagon(point=point_0, angle=50)
+sd.resolution = (800, 800)
+
+start_point = sd.get_point(150, 600)
+triangle(start_point=start_point, angle=20, length=100)
+
+start_point = sd.get_point(500, 600)
+square(start_point=start_point, angle=20, length=100)
+
+start_point = sd.get_point(200, 200)
+pentagon(start_point=start_point, angle=20, length=100)
+
+start_point = sd.get_point(600, 100)
+hexagon(start_point=start_point, angle=20, length=100)
 
 
 # Часть 1-бис.
