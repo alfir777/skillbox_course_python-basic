@@ -55,11 +55,11 @@ figure = {1: 'Треугольник',
           }
 
 print('Возможные фигуры:')
-print(figure)
-user_input = int(input('Введите желаемый цвет: '))
+pprint(figure)
+user_input = int(input('Введите желаемую фигуру: '))
 while user_input < 1 or user_input > 7:
     print('Вы ввели неправильный цвет!')
-    user_input = int(input('Введите желаемый цвет: '))
+    user_input = int(input('Введите желаемую фигуру: '))
 
 sd.resolution = (400, 400)
 start_point = sd.get_point(200, 200)
