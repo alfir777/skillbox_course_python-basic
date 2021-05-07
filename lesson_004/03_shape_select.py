@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from pprint import pprint
-
 import simple_draw as sd
 
 
@@ -55,7 +53,7 @@ figure = {1: 'Треугольник',
           }
 
 print('Возможные фигуры:')
-pprint(figure)
+print(figure)
 user_input = int(input('Введите желаемую фигуру: '))
 while user_input < 1 or user_input > 7:
     print('Вы ввели неправильный цвет!')
