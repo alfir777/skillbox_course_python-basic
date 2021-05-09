@@ -26,12 +26,16 @@ for _ in range(N):
     y.append(sd.random_number(0, 600))
 
 while True:
-    sd.clear_screen()
+    sd.start_drawing()
     for i in range(len(x)):
+        if i > 0:
+            point1 = sd.get_point(x[i-1], y[i-1])
+            sd.snowflake(center=point1, length=50, color=sd.COLOR_WHITE)
         point = sd.get_point(x[i], y[i])
-        sd.snowflake(center=point, length=50, color=sd.COLOR_WHITE)
+        sd.snowflake(center=point, length=50, color=sd.background_color)
         y[i] -= sd.random_number(0, 10)
         x[i] = x[i] + sd.random_number(0, 10)
+    sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
