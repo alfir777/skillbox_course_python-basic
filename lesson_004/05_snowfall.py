@@ -20,10 +20,10 @@ sd.resolution = (1200, 600)
 
 x = []
 for _ in range(N):
-    x.append(sd.random_number(0, 1200))
+    x.append(sd.random_number(50, 1150))
 y = []
 for _ in range(N):
-    y.append(sd.random_number(0, 600))
+    y.append(sd.random_number(100, 550))
 
 while True:
     sd.start_drawing()
@@ -32,9 +32,10 @@ while True:
             point1 = sd.get_point(x[i-1], y[i-1])
             sd.snowflake(center=point1, length=50, color=sd.COLOR_WHITE)
         point = sd.get_point(x[i], y[i])
-        sd.snowflake(center=point, length=50, color=sd.background_color)
-        y[i] -= sd.random_number(0, 10)
-        x[i] = x[i] + sd.random_number(0, 10)
+        if y[i] > 50:
+            sd.snowflake(center=point, length=50, color=sd.background_color)
+            y[i] -= sd.random_number(-1, 15)
+            x[i] = x[i] + sd.random_number(-15, 15)
     sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
