@@ -18,7 +18,24 @@
 # пример см. lesson_005/results/04_painting.jpg
 # Приправить своей фантазией по вкусу (коты? коровы? люди? трактор? что придумается)
 
-# TODO здесь ваш код
+import simple_draw as sd
+
+from painting import fractal as paint_fractal, \
+    rainbow as paint_rainbow, \
+    smile as paint_smile, \
+    snowfall as paint_snowfall, \
+    wall as paint_wall
+
+sd.resolution = (1200, 600)
+
+paint_smile.smile(x=100, y=100, size=0.4, color=sd.COLOR_CYAN)
+root_point = sd.get_point(900, 30)
+paint_rainbow.rainbow()
+paint_fractal.draw_branches_v2(start_point=root_point, angle=90, length=100)
+paint_wall.wall()
+paint_snowfall.snowfall()
+
+sd.pause()
 
 # Усложненное задание (делать по желанию)
 # Анимировать картину.
