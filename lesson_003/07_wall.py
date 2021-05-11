@@ -10,27 +10,18 @@ import simple_draw as sd
 
 
 sd.resolution = (600, 600)
-x = 100
-y = 50
 
-step_y = 0
+brick_x = 100
+brick_y = 50
 
-for _ in range(0, 601, y):
-    step_x = 0
-    if (step_y / 10) % 2:
-        for _ in range(0, 601, x):
-            point_x = sd.get_point(step_x, step_y)
-            point_y = sd.get_point(x+step_x, y+step_y)
-            sd.rectangle(point_x, point_y, color=sd.COLOR_ORANGE, width=3)
-            step_x += x
-            time.sleep(0.01)
-    else:
-        for _ in range(0, 601, x):
-            point_x = sd.get_point(step_x+y, step_y)
-            point_y = sd.get_point(x+step_x+y, y+step_y)
-            sd.rectangle(point_x, point_y, color=sd.COLOR_ORANGE, width=3)
-            step_x += x
-            time.sleep(0.01)
-    step_y += y
+row = 0
+for y in range(0, sd.resolution[1], brick_y):
+    row += 1
+    for x in range(0, sd.resolution[0], brick_x):
+        x0 = x if row % 2 else x + brick_x // 2
+        left_bottom = sd.get_point(x0, y)
+        right_top = sd.get_point(x0 + brick_x, y + brick_y)
+        sd.rectangle(left_bottom=left_bottom, right_top=right_top, color=sd.COLOR_ORANGE, width=3)
+        time.sleep(0.01)
 
 sd.pause()
