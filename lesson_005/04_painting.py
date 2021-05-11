@@ -28,11 +28,30 @@ from painting import fractal as paint_fractal, \
 
 sd.resolution = (1200, 600)
 
-paint_smile.smile(x=100, y=100, size=0.4, color=sd.COLOR_CYAN)
+#  - кирпичный дом, в окошке - смайлик
+color_home = sd.COLOR_ORANGE
+coord_x = 300
+coord_y = 100
+start_point = sd.get_point(coord_x-3, coord_y)
+paint_wall.square(start_point=start_point, angle=0, length=211, color=color_home)
+paint_wall.wall(coord_x=coord_x, coord_y=coord_y, height=201)
+start_point = sd.get_point(coord_x-1, coord_y+211)
+paint_wall.triangle(start_point=start_point, angle=0, length=211, color=color_home)
+start_point = sd.get_point(coord_x+51, coord_y+51)
+sd.square(left_bottom=start_point, side=103, color=sd.background_color, width=0)
+paint_wall.square(start_point=start_point, angle=0, length=101, color=color_home)
+paint_smile.smile(x=coord_x+101, y=coord_y+101, size=0.5, color=sd.COLOR_CYAN)
+
+# - справа от дома - дерево
 root_point = sd.get_point(900, 30)
-paint_rainbow.rainbow()
 paint_fractal.draw_branches_v2(start_point=root_point, angle=90, length=100)
-paint_wall.wall()
+
+#  - справа в небе - радуга, слева - солнце (весна же!)
+paint_rainbow.rainbow(size=1)
+center_position = sd.get_point(100, 500)
+sd.circle(center_position, radius=50, color=sd.COLOR_YELLOW, width=0)
+
+#  - слева от дома - сугроб (предположим что это ранняя весна)
 paint_snowfall.snowfall()
 
 sd.pause()
