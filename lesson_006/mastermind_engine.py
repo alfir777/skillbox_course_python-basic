@@ -36,15 +36,18 @@ def guess_number():
     first_number = random.randint(1, 9)
     last_3 = random.sample(set_numbers - {first_number}, 3)
     secret_number = int(str(first_number) + ''.join(map(str, last_3)))
-    print(secret_number)
+    print(secret_number)      # off debug
 
 
 def check_number(user_number):
     dict_bulls_cows = {'bulls': 0, 'cows': 0}
     for i, number in enumerate(str(user_number)):
-        if number == secret_number[i]:
-            dict_bulls_cows[bulls]
+        if number == str(secret_number)[i]:
+            dict_bulls_cows['bulls'] += 1
+        if number in str(secret_number):
+            dict_bulls_cows['cows'] += 1
 
-    return True
+    return print('> быки -', dict_bulls_cows['bulls'], ', коровы -', dict_bulls_cows['cows'])
+
 
 guess_number()

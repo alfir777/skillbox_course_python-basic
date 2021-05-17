@@ -52,9 +52,20 @@ cprint('------------------------', color='green')
 cprint('  Игра «Быки и коровы»', color='green')
 cprint('------------------------', color='green')
 
+count = 0
+
 while True:
     user_number = int(input('Введите число: '))
     mastermind_engine.check_number(user_number=user_number)
+    count += 1
     if user_number == mastermind_engine.secret_number:
         print('Успех')
-        print('Хотите еще партию?')
+        print('Количество ходов -', count)
+        solution = input('Хотите еще партию(Да/Нет)? ')
+        if solution == 'Да':
+            mastermind_engine.guess_number()
+            count = 0
+            continue
+        else:
+            print('Удачного дня!')
+            break
