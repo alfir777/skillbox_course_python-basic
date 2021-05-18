@@ -52,6 +52,8 @@ cprint('------------------------', color='green')
 cprint('  Игра «Быки и коровы»', color='green')
 cprint('------------------------', color='green')
 
+yes = ['Да', 'да', 'д', 'Yes', 'yes', 'y']
+
 count = 0
 
 while True:
@@ -62,7 +64,7 @@ while True:
         print('Успех')
         print('Количество ходов -', count)
         solution = input('Хотите еще партию(Да/Нет)? ')
-        if solution == 'Да':
+        if solution in yes:
             mastermind_engine.guess_number()
             count = 0
             continue

@@ -34,7 +34,7 @@ def guess_number():
     global secret_number
     set_numbers = set(range(10))
     first_number = random.randint(1, 9)
-    last_3 = random.sample(set_numbers - {first_number}, 3)
+    last_3 = random.sample(tuple(set_numbers - {first_number}), 3)
     secret_number = int(str(first_number) + ''.join(map(str, last_3)))
     print(secret_number)      # off debug
 
