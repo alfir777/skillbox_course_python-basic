@@ -3,14 +3,25 @@
 import simple_draw as sd
 
 
-def create_snowflakes(N):
-    #  создать_снежинки(N) - создает N снежинок
-    pass
+def create_snowflakes(count_snowflakes=20):
+    new_snowflakes = {}
+    for i in range(count_snowflakes):
+        new_snowflakes[i] = {'length': sd.random_number(5, 15),
+                             'x': sd.random_number(0, sd.resolution[0]),
+                             'y': y,
+                             'factor_a': sd.random_number(1, 10) / 10,
+                             'factor_b': sd.random_number(1, 10) / 10,
+                             'factor_c': sd.random_number(10, 120)}
+    return new_snowflakes
 
 
-def draw_snowflakes_color(color):
-    #  нарисовать_снежинки_цветом(color) - отрисовывает все снежинки цветом color
-    pass
+def draw_snowflakes_color(center, color=sd.background_color):
+    sd.snowflake(center=center,
+                 length=snowflakes_v['length'],
+                 color=color,
+                 factor_a=snowflakes_v['factor_a'],
+                 factor_b=snowflakes_v['factor_b'],
+                 factor_c=snowflakes_v['factor_c'])
 
 
 def nudge_snowflakes():
@@ -28,28 +39,26 @@ def delete_snowflakes(numbers):
     pass
 
 
-N = 20
-
 sd.resolution = (1200, 600)
-
-x = []
-for _ in range(N):
-    x.append(sd.random_number(50, 1150))
-y = []
-for _ in range(N):
-    y.append(sd.random_number(100, 550))
+y = 500
+snowflakes = create_snowflakes(count_snowflakes=20)
 
 while True:
     sd.start_drawing()
-    for i in range(len(x)):
-        if i > 0:
-            point1 = sd.get_point(x[i-1], y[i-1])
-            sd.snowflake(center=point1, length=50, color=sd.COLOR_WHITE)
-        point = sd.get_point(x[i], y[i])
-        if y[i] > 50:
-            sd.snowflake(center=point, length=50, color=sd.background_color)
-            y[i] -= sd.random_number(-1, 15)
-            x[i] = x[i] + sd.random_number(-15, 15)
+    for snowflakes_k, snowflakes_v in snowflakes.items():
+        start_point = sd.get_point(snowflakes_v['x'], snowflakes_v['y'])
+        draw_snowflakes_color(center=start_point, color=sd.background_color)
+
+        snowflakes_v['x'] += sd.random_number(-5, 5)
+        snowflakes_v['y'] -= snowflakes_v['length']
+
+        next_point = sd.get_point(snowflakes_v['x'], snowflakes_v['y'])
+        draw_snowflakes_color(center=next_point, color=sd.COLOR_WHITE)
+
+        if snowflakes_v['y'] < 50:
+            snowflakes_v['y'] = y
+            snowflakes_v['x'] = sd.random_number(0, sd.resolution[0])
+
     sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
