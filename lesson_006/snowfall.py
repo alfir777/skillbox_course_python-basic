@@ -2,75 +2,60 @@
 
 import simple_draw as sd
 
+sd.resolution = (1200, 700)
 
-def create_snowflakes(count_snowflakes=20):
-    y = 500
+_snowflakes = {}
+_down_snowflakes = []
+
+
+def create_snowflakes(snowflakes_count=1):
+    y = 600
     new_snowflakes = {}
-    for i in range(count_snowflakes):
-        new_snowflakes[i] = {'length': sd.random_number(5, 15),
-                             'x': sd.random_number(0, sd.resolution[0]),
-                             'y': y,
-                             'factor_a': sd.random_number(1, 10) / 10,
-                             'factor_b': sd.random_number(1, 10) / 10,
-                             'factor_c': sd.random_number(10, 120)}
-    return new_snowflakes
+    len_dict = 0
+
+    for key, value in _snowflakes.items():
+        new_snowflakes[len_dict] = value
+        len_dict += 1
+
+    for i in range(snowflakes_count):
+        new_snowflakes[len_dict + i] = {'length': sd.random_number(5, 15),
+                                        'x': sd.random_number(0, sd.resolution[0]),
+                                        'y': y,
+                                        'factor_a': sd.random_number(1, 10) / 10,
+                                        'factor_b': sd.random_number(1, 10) / 10,
+                                        'factor_c': sd.random_number(10, 120)
+                                        }
+
+    _snowflakes.update(new_snowflakes)
+    _down_snowflakes.clear()
 
 
-def draw_snowflakes_color(center, color=sd.background_color):
-    sd.snowflake(center=center,
-                 length=snowflakes_v['length'],
-                 color=color,
-                 factor_a=snowflakes_v['factor_a'],
-                 factor_b=snowflakes_v['factor_b'],
-                 factor_c=snowflakes_v['factor_c'])
+def remove_snowflakes(num_snowflake):
+    _new_snowflakes = {k: v for k, v in _snowflakes.items() if k not in num_snowflake}
+    _snowflakes.clear()
+    _snowflakes.update(_new_snowflakes)
 
 
-def move_snowflakes(snowflake):
-    snowflake['x'] += sd.random_number(-5, 5)
-    snowflake['y'] -= snowflake['length']
-    point = sd.get_point(snowflake['x'], snowflake['y'])
-    return point
+def draw_snowflakes(color=sd.COLOR_WHITE):
+    for snowflakes_nim, snowflakes_parameter in _snowflakes.items():
+        start_point = sd.get_point(x=snowflakes_parameter['x'], y=snowflakes_parameter['y'])
+        sd.snowflake(center=start_point,
+                     length=snowflakes_parameter['length'],
+                     color=color,
+                     factor_a=snowflakes_parameter['factor_a'],
+                     factor_b=snowflakes_parameter['factor_b'],
+                     factor_c=snowflakes_parameter['factor_c'])
 
 
-def numbers_reached_down_screen(snowflake):
-    if snowflakes_v['y'] < 50:
-        snowflakes_v['y'] = y
-        snowflakes_v['x'] = sd.random_number(0, sd.resolution[0])
-    return snowflakes_k
+def move_snowflakes():
+    for snowflakes_num, snowflakes_parameter in _snowflakes.items():
+        snowflakes_parameter['x'] += sd.random_number(0, 2)
+        snowflakes_parameter['y'] -= snowflakes_parameter['length'] + sd.random_number(-5, 5)
 
 
-def delete_snowflakes(numbers):
-    for i in numbers:
-        snowflakes.pop(i)
-    numbers_reached.clear()
+def get_down_snowflakes():
+    for snowflake_num, snowflake_parameter in _snowflakes.items():
+        if snowflake_parameter['y'] < 0:
+            _down_snowflakes.append(snowflake_num)
 
-
-numbers_reached = []
-
-if __name__ == "__main__":
-    sd.resolution = (1200, 600)
-    y = 500
-    snowflakes = create_snowflakes(count_snowflakes=20)
-
-    while True:
-        sd.start_drawing()
-        for snowflakes_k, snowflakes_v in snowflakes.items():
-            start_point = sd.get_point(snowflakes_v['x'], snowflakes_v['y'])
-            draw_snowflakes_color(center=start_point, color=sd.background_color)
-
-            next_point = move_snowflakes(snowflake=snowflakes_v)
-            draw_snowflakes_color(center=next_point, color=sd.COLOR_WHITE)
-
-            numbers_reached.append(numbers_reached_down_screen(snowflake=snowflakes_k))
-            # delete_snowflakes(numbers_reached)
-
-        # if len(numbers_reached) > 0:
-        #     delete_snowflakes(numbers=numbers_reached)
-        #     create_snowflakes(count_snowflakes=len(numbers_reached))
-
-        sd.finish_drawing()
-        sd.sleep(0.1)
-        if sd.user_want_exit():
-            break
-
-    sd.pause()
+    return _down_snowflakes
