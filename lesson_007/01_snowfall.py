@@ -7,11 +7,39 @@ import simple_draw as sd
 #  - отработку изменений координат
 #  - отрисовку
 
+sd.resolution = (1200, 800)
+
 
 class Snowflake:
-    pass
+    down_snowflakes = []
 
-    # TODO здесь ваш код
+    def __init__(self):
+        self.length = sd.random_number(5, 15)
+        self.x = sd.random_number(0, sd.resolution[0])
+        self.y = 700
+        self.factor_a = sd.random_number(1, 10) / 10
+        self.factor_b = sd.random_number(1, 10) / 10
+        self.factor_c = sd.random_number(10, 120)
+
+    def clear_previous_picture(self):
+        self.draw(color=sd.background_color)
+
+    def move(self):
+        self.x += sd.random_number(0, 2)
+        self.y -= self.length + sd.random_number(-5, 5)
+
+    def draw(self, color=sd.COLOR_WHITE):
+        start_point = sd.get_point(x=self.x, y=self.y)
+        sd.snowflake(center=start_point,
+                     length=self.length,
+                     color=color,
+                     factor_a=self.factor_a,
+                     factor_b=self.factor_b,
+                     factor_c=self.factor_c)
+
+    def can_fall(self):
+        if self.y > 0:
+            return True
 
 
 flake = Snowflake()
