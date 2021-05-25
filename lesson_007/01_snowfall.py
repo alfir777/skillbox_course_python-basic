@@ -69,24 +69,30 @@ class Snowflake:
 #         break
 
 def get_flakes(count):
+    _flakes = {}
     for i in range(count):
-        flakes[i+1] = Snowflake()
-    return flakes
+        _flakes[i + 1] = Snowflake()
+    return _flakes
 
 
 N = 20
-flakes = {}
-
+fallen_flakes = []
 
 flakes = get_flakes(count=N)
 
 
 def get_fallen_flakes(flakes):
-    pass
+    for number, flake_parameter in flakes.items():
+        if flake_parameter.y < 0:
+            fallen_flakes.append(number)
+    return fallen_flakes
 
 
-def append_flakes():
-    pass
+def append_flakes(fallen_flakes=fallen_flakes):
+    for fallen in fallen_flakes:
+        flakes[fallen] = Snowflake()
+    fallen_flakes.clear()
+    return fallen_flakes
 
 
 while True:
@@ -96,9 +102,9 @@ while True:
         flake.draw()
         if not flake.can_fall():
             break
-    # fallen_flakes = get_fallen_flakes(flakes=flakes)  # подчитать сколько снежинок уже упало
-    # if fallen_flakes:
-    #     append_flakes(count=fallen_flakes)  # добавить еще сверху
+    fallen_flakes = get_fallen_flakes(flakes=flakes)  # подчитать сколько снежинок уже упало
+    if fallen_flakes:
+        append_flakes(fallen_flakes=fallen_flakes)  # добавить еще сверху
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
