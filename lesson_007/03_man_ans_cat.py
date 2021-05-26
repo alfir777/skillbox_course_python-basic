@@ -49,7 +49,7 @@ class Man:
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='blue')
-        self.house.money += 50
+        self.house.money += 150
         self.fullness -= 10
 
     def watch_MTV(self):
@@ -114,18 +114,57 @@ class House:
 
     def __init__(self):
         self.food = 50
-        self.money = 0
+        self.money = 150
+        self.cat_food = 0
+        self.dirt = 0
 
     def __str__(self):
-        return 'В доме еды осталось {}, денег осталось {}'.format(
-            self.food, self.money)
+        return 'В доме еды осталось {}, кошачей еды осталось {}, денег осталось {}'.format(
+            self.food, self.cat_food, self.money)
 
 
-citizens = [
-    Man(name='Бивис'),
-    Man(name='Батхед'),
-    Man(name='Кенни'),
-]
+class Cat:
+
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 50
+        self.house = None
+
+    def __str__(self):
+        return 'Я - {}, сытость {}'.format(
+            self.name, self.fullness)
+
+    def sleep(self):
+        self.fullness -= 10
+        cprint('{} спит целый день'.format(self.name), color='green')
+
+    def eat(self):
+        if self.house.cat_food >= 10:
+            self.fullness += 20
+            self.house.cat_food -= 10
+            cprint('{} поел'.format(self.name), color='yellow')
+        else:
+            cprint('{} нет еды'.format(self.name), color='red')
+
+    def tears_wallpaper(self):
+        self.fullness -= 10
+        self.house.cat_food += 5
+        cprint('{} дерет обои'.format(self.name), color='blue')
+
+    def act(self):
+        if self.fullness <= 0:
+            cprint('{} умер...'.format(self.name), color='red')
+            return
+        dice = randint(1, 2)
+        if self.fullness < 20:
+            self.eat()
+        elif dice == 1:
+            self.sleep()
+        elif dice == 2:
+            self.tears_wallpaper()
+
+
+citizens = [Man(name='Бивис')]
 
 cats = [Cat(name='Мурзик'),
         Cat(name='Барсик'),
