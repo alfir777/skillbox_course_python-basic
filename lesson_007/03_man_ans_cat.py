@@ -3,6 +3,7 @@
 from random import randint
 from termcolor import cprint
 
+
 # Доработать практическую часть урока lesson_007/python_snippets/08_practice.py
 
 # Необходимо создать класс кота. У кота есть аттрибуты - сытость и дом (в котором он живет).
@@ -126,22 +127,28 @@ citizens = [
     Man(name='Кенни'),
 ]
 
-murzik = Cat(name='Мурзик')
+cats = [Cat(name='Мурзик'),
+        Cat(name='Барсик'),
+        Cat(name='Кузя'),
+        ]
 
 my_sweet_home = House()
 for citisen in citizens:
     citisen.go_to_the_house(house=my_sweet_home)
-    citisen.go_to_the_house_cat(cat=murzik, house=my_sweet_home)
+    for cat in cats:
+        citisen.go_to_the_house_cat(cat=cat, house=my_sweet_home)
 
 for day in range(1, 366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
         citisen.act()
-    murzik.act()
+    for cat in cats:
+        cat.act()
     print('--- в конце дня ---')
     for citisen in citizens:
         print(citisen)
-    print(murzik)
+    for cat in cats:
+        print(cat)
     print(my_sweet_home)
 
 # Усложненное задание (делать по желанию)
