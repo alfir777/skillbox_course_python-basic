@@ -66,7 +66,25 @@ class Man:
     def go_to_the_house(self, house):
         self.house = house
         self.fullness -= 10
-        cprint('{} Вьехал в дом'.format(self.name), color='cyan')
+        cprint('{} въехал в дом'.format(self.name), color='cyan')
+
+    def go_to_the_house_cat(self, cat, house):
+        cat.house = house
+        self.fullness -= 10
+        cprint('{} въехал в дом'.format(cat.name), color='cyan')
+
+    def buy_food_for_cat(self):
+        if self.house.money >= 50:
+            cprint('{} сходил в магазин за едой'.format(self.name), color='magenta')
+            self.house.money -= 50
+            self.house.cat_food += 50
+        else:
+            cprint('{} деньги кончились!'.format(self.name), color='red')
+
+    def clean_house(self):
+        self.fullness -= 20
+        self.house.dirt -= 100
+        cprint('{} убрался в доме!'.format(self.name), color='red')
 
     def act(self):
         if self.fullness <= 0:
@@ -77,6 +95,10 @@ class Man:
             self.eat()
         elif self.house.food < 10:
             self.shopping()
+        elif self.house.cat_food < 10:
+            self.buy_food_for_cat()
+        elif self.house.dirt > 100:
+            self.clean_house()
         elif self.house.money < 50:
             self.work()
         elif dice == 1:
@@ -104,18 +126,22 @@ citizens = [
     Man(name='Кенни'),
 ]
 
+murzik = Cat(name='Мурзик')
 
 my_sweet_home = House()
 for citisen in citizens:
     citisen.go_to_the_house(house=my_sweet_home)
+    citisen.go_to_the_house_cat(cat=murzik, house=my_sweet_home)
 
 for day in range(1, 366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
         citisen.act()
+    murzik.act()
     print('--- в конце дня ---')
     for citisen in citizens:
         print(citisen)
+    print(murzik)
     print(my_sweet_home)
 
 # Усложненное задание (делать по желанию)
