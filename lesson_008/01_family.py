@@ -183,23 +183,24 @@ class Wife(Humen):
         self.fullness -= 10
 
 
-home = House()
-serge = Husband(name='Сережа')
-serge.go_to_the_house(house=home)
-masha = Wife(name='Маша')
-masha.go_to_the_house(house=home)
+if __name__ == "__main__":
+    home = House()
+    serge = Husband(name='Сережа')
+    serge.go_to_the_house(house=home)
+    masha = Wife(name='Маша')
+    masha.go_to_the_house(house=home)
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
-cprint('-' * 70, color='red')
-cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
-    home.money_rate, home.food_rate, masha.coat_rate), color='red')
-cprint('-' * 70, color='red')
+    for day in range(365):
+        cprint('================== День {} =================='.format(day), color='red')
+        serge.act()
+        masha.act()
+        cprint(serge, color='cyan')
+        cprint(masha, color='cyan')
+        cprint(home, color='cyan')
+    cprint('-' * 70, color='red')
+    cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
+        home.money_rate, home.food_rate, masha.coat_rate), color='red')
+    cprint('-' * 70, color='red')
 
 # ------------------- Часть вторая ------------------------------
 #
