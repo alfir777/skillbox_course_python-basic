@@ -34,7 +34,26 @@ import os, time, shutil
 # Чтение документации/гугла по функциям - приветствуется. Как и поиск альтернативных вариантов :)
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
-# TODO здесь ваш код
+path = os.path.dirname(__file__) + '\icons'
+path_normalized = os.path.normpath(path)
+target_folder = os.path.dirname(__file__) + '\icons_by_year'
+target_folder_normalized = os.path.normpath(target_folder)
+
+for dirpath, dirnames, filenames in os.walk(path_normalized):
+    for file in filenames:
+        full_file_path = os.path.join(dirpath, file)
+        secs = os.path.getmtime(full_file_path)
+        file_time = time.gmtime(secs)
+        new_folder = target_folder_normalized + '\\' + str(file_time.tm_year) + '\\' + str(file_time.tm_mon)
+        new_folder_normalized = os.path.normpath(new_folder)
+        if not os.path.isdir(new_folder_normalized):
+            os.makedirs(new_folder_normalized)
+        new_full_file_path = os.path.join(new_folder_normalized, file)
+        if not os.path.isfile(new_full_file_path):
+            shutil.copy2(full_file_path,new_full_file_path)
+        else:
+            print('Такой файл существует: ', new_full_file_path)
+print('Файлы успешно отсортированы')
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
