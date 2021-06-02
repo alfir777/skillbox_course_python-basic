@@ -22,7 +22,7 @@
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
 
-class Statistics_by_letter:
+class StatisticsByLetter:
     count_letter = 0
 
     def __init__(self, file_name):
@@ -45,7 +45,7 @@ class Statistics_by_letter:
                             self.count_letter += 1
 
 
-statistics_letters = Statistics_by_letter(file_name='voyna-i-mir.txt')
+statistics_letters = StatisticsByLetter(file_name='voyna-i-mir.txt')
 statistics_letters.collect()
 print('+---------+----------+')
 print('|  буква  | частота  |')
