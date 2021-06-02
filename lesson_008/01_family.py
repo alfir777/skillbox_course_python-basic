@@ -183,24 +183,24 @@ class Wife(Humen):
         self.fullness -= 10
 
 
-if __name__ == "__main__":
-    home = House()
-    serge = Husband(name='Сережа')
-    serge.go_to_the_house(house=home)
-    masha = Wife(name='Маша')
-    masha.go_to_the_house(house=home)
-
-    for day in range(365):
-        cprint('================== День {} =================='.format(day), color='red')
-        serge.act()
-        masha.act()
-        cprint(serge, color='cyan')
-        cprint(masha, color='cyan')
-        cprint(home, color='cyan')
-    cprint('-' * 70, color='red')
-    cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
-        home.money_rate, home.food_rate, masha.coat_rate), color='red')
-    cprint('-' * 70, color='red')
+# if __name__ == "__main__":
+#     home = House()
+#     serge = Husband(name='Сережа')
+#     serge.go_to_the_house(house=home)
+#     masha = Wife(name='Маша')
+#     masha.go_to_the_house(house=home)
+#
+#     for day in range(365):
+#         cprint('================== День {} =================='.format(day), color='red')
+#         serge.act()
+#         masha.act()
+#         cprint(serge, color='cyan')
+#         cprint(masha, color='cyan')
+#         cprint(home, color='cyan')
+#     cprint('-' * 70, color='red')
+#     cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
+#         home.money_rate, home.food_rate, masha.coat_rate), color='red')
+#     cprint('-' * 70, color='red')
 
 # ------------------- Часть вторая ------------------------------
 #
@@ -256,24 +256,60 @@ class Cat:
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:
+class Child(Humen):
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        super().__init__(name)
+        self.happy = 100
 
     def __str__(self):
         return super().__str__()
 
     def act(self):
-        pass
+        if self.fullness <= 0:
+            cprint('{} умер...'.format(self.name), color='red')
+            return
+        if self.fullness < 20:
+            self.eat()
+        else:
+            self.sleep()
 
     def eat(self):
-        pass
+        if self.house.food >= 10:
+            cprint('{} поел'.format(self.name), color='yellow')
+            fullness = randint(1, 10)
+            self.fullness += fullness
+            self.house.food -= fullness
+        else:
+            cprint('{} нет еды'.format(self.name), color='red')
 
     def sleep(self):
-        pass
+        cprint('{} спит целый день'.format(self.name), color='green')
+        self.fullness -= 10
 
-# TODO после реализации второй части - отдать на проверку учителем две ветки
+
+if __name__ == "__main__":
+    home = House()
+    serge = Husband(name='Сережа')
+    serge.go_to_the_house(house=home)
+    masha = Wife(name='Маша')
+    masha.go_to_the_house(house=home)
+    baby = Child(name='Ребенок')
+    baby.go_to_the_house(house=home)
+
+    for day in range(365):
+        cprint('================== День {} =================='.format(day), color='red')
+        serge.act()
+        masha.act()
+        baby.act()
+        cprint(serge, color='cyan')
+        cprint(masha, color='cyan')
+        cprint(baby, color='cyan')
+        cprint(home, color='cyan')
+    cprint('-' * 70, color='red')
+    cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
+        home.money_rate, home.food_rate, masha.coat_rate), color='red')
+    cprint('-' * 70, color='red')
 
 
 # ------------------- Часть третья ------------------------------
