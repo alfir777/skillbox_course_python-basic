@@ -164,6 +164,8 @@ class Wife(Humen):
             self.eat()
         elif self.house.food < 50:
             self.shopping()
+        elif self.house.cat_food < 50:
+            self.shopping_cat_food()
         elif 90 < self.house.dirt < 100:
             self.happy -= 10
         elif self.house.dirt > 100:
@@ -291,29 +293,29 @@ class Cat:
         cprint('{} дерет обои'.format(self.name), color='blue')
         self.fullness -= 10
 
-
-if __name__ == "__main__":
-    home = House()
-    serge = Husband(name='Сережа')
-    serge.go_to_the_house(house=home)
-    masha = Wife(name='Маша')
-    masha.go_to_the_house(house=home)
-    murzik = Cat('Мурзик')
-    masha.go_to_the_house_cat(cat=murzik, house=home)
-
-    for day in range(365):
-        cprint('================== День {} =================='.format(day), color='red')
-        serge.act()
-        masha.act()
-        murzik.act()
-        cprint(serge, color='cyan')
-        cprint(masha, color='cyan')
-        cprint(murzik, color='cyan')
-        cprint(home, color='cyan')
-    cprint('-' * 70, color='red')
-    cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
-        home.money_rate, home.food_rate, masha.coat_rate), color='red')
-    cprint('-' * 70, color='red')
+#
+# if __name__ == "__main__":
+#     home = House()
+#     serge = Husband(name='Сережа')
+#     serge.go_to_the_house(house=home)
+#     masha = Wife(name='Маша')
+#     masha.go_to_the_house(house=home)
+#     murzik = Cat('Мурзик')
+#     masha.go_to_the_house_cat(cat=murzik, house=home)
+#
+#     for day in range(365):
+#         cprint('================== День {} =================='.format(day), color='red')
+#         serge.act()
+#         masha.act()
+#         murzik.act()
+#         cprint(serge, color='cyan')
+#         cprint(masha, color='cyan')
+#         cprint(murzik, color='cyan')
+#         cprint(home, color='cyan')
+#     cprint('-' * 70, color='red')
+#     cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
+#         home.money_rate, home.food_rate, masha.coat_rate), color='red')
+#     cprint('-' * 70, color='red')
 
 
 # ------------------- Часть вторая (бис)  ------------------------------
@@ -367,15 +369,19 @@ if __name__ == "__main__":
     masha.go_to_the_house(house=home)
     baby = Child(name='Ребенок')
     baby.go_to_the_house(house=home)
+    murzik = Cat('Мурзик')
+    masha.go_to_the_house_cat(cat=murzik, house=home)
 
     for day in range(365):
         cprint('================== День {} =================='.format(day), color='red')
         serge.act()
         masha.act()
         baby.act()
+        murzik.act()
         cprint(serge, color='cyan')
         cprint(masha, color='cyan')
         cprint(baby, color='cyan')
+        cprint(murzik, color='cyan')
         cprint(home, color='cyan')
     cprint('-' * 70, color='red')
     cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
@@ -389,26 +395,7 @@ if __name__ == "__main__":
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
-# TODO ++Пока закомментировал
-# home = House()
-# serge = Husband()
-# masha = Wife(name='Маша')
-# kolya = Child(name='Коля')
-# murzik = Cat(name='Мурзик')
-#
-# for day in range(365):
-#     cprint('================== День {} =================='.format(day), color='red')
-#     serge.act()
-#     masha.act()
-#     kolya.act()
-#     murzik.act()
-#     cprint(serge, color='cyan')
-#     cprint(masha, color='cyan')
-#     cprint(kolya, color='cyan')
-#     cprint(murzik, color='cyan')
-# TODO --Пока закомментировал
-
-# Усложненное задание (делать по желанию)
+# TODO Усложненное задание (делать по желанию)
 #
 # Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
 # Коты должны выжить вместе с семьей!
