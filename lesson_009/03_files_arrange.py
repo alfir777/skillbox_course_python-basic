@@ -37,16 +37,18 @@ import os, time, shutil
 
 class FileManager:
 
-    def __init__(self):
-        pass
+    def __init__(self, path=None, file=None, target_path=None):
+        self.path = path
+        self.file = file
+        self.target_path = target_path
 
-    def sorted_to_date(self, path, target_path):
-        for dir_path, dir_names, filenames in os.walk(path):
+    def sorted_folder_to_date(self):
+        for dir_path, dir_names, filenames in os.walk(self.path):
             for file in filenames:
                 full_file_path = os.path.join(dir_path, file)
                 secs = os.path.getmtime(full_file_path)
                 file_time = time.gmtime(secs)
-                new_folder = target_path + '\\' + str(file_time.tm_year) + '\\' + str(file_time.tm_mon)
+                new_folder = self.target_path + '\\' + str(file_time.tm_year) + '\\' + str(file_time.tm_mon)
                 new_folder_normalized = os.path.normpath(new_folder)
                 if not os.path.isdir(new_folder_normalized):
                     os.makedirs(new_folder_normalized)
@@ -57,13 +59,13 @@ class FileManager:
                     print('Такой файл существует: ', new_full_file_path)
 
 
-sorter = FileManager()
 paths = os.path.dirname(__file__) + '\\icons'
 path_normalized = os.path.normpath(paths)
 target_folder = os.path.dirname(__file__) + '\\icons_by_year'
 target_folder_normalized = os.path.normpath(target_folder)
 
-sorter.sorted_to_date(path=path_normalized, target_path=target_folder_normalized)
+sorter = FileManager(path=path_normalized, target_path=target_folder_normalized)
+sorter.sorted_folder_to_date()
 
 print('Файлы успешно отсортированы')
 
