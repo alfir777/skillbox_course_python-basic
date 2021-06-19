@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os, time, shutil
+from contextlib import closing
+from tqdm import tqdm
+
 
 # Нужно написать скрипт для упорядочивания фотографий (вообще любых файлов)
 # Скрипт должен разложить файлы из одной папки по годам и месяцам в другую.
@@ -38,36 +41,51 @@ import os, time, shutil
 class FileManager:
 
     def __init__(self, path=None, file=None, target_path=None):
-        self.path = path
-        self.file = file
-        self.target_path = target_path
+        if path:
+            self.path = os.path.normpath(path)
+        else:
+            print('Не указана начальная папка')
+        if target_path:
+            self.target_path = os.path.normpath(target_path)
+        else:
+            print('Не указана папка назначения')
+        self.count_file = self.count_files()
 
-    def sorted_folder_to_date(self):
+    def sorted(self):
+
+        with closing(tqdm(total=self.count_file)) as pbar:
+            for dir_path, dir_names, filenames in os.walk(self.path):
+                for file in filenames:
+                    full_file_path = os.path.join(dir_path, file)
+                    secs = os.path.getmtime(full_file_path)
+                    file_time = time.gmtime(secs)
+                    new_folder = self.target_path + '\\' + str(file_time.tm_year) + '\\' + str(file_time.tm_mon)
+                    new_folder_normalized = os.path.normpath(new_folder)
+                    if not os.path.isdir(new_folder_normalized):
+                        os.makedirs(new_folder_normalized)
+                    new_full_file_path = os.path.join(new_folder_normalized, file)
+                    if not os.path.isfile(new_full_file_path):
+                        shutil.copy2(full_file_path, new_full_file_path)
+                    # else:
+                    #     print('Такой файл существует: ', new_full_file_path)
+                    pbar.update(1)
+            print('Файлы успешно отсортированы')
+
+    def count_files(self):
+        count = 0
         for dir_path, dir_names, filenames in os.walk(self.path):
             for file in filenames:
-                full_file_path = os.path.join(dir_path, file)
-                secs = os.path.getmtime(full_file_path)
-                file_time = time.gmtime(secs)
-                new_folder = self.target_path + '\\' + str(file_time.tm_year) + '\\' + str(file_time.tm_mon)
-                new_folder_normalized = os.path.normpath(new_folder)
-                if not os.path.isdir(new_folder_normalized):
-                    os.makedirs(new_folder_normalized)
-                new_full_file_path = os.path.join(new_folder_normalized, file)
-                if not os.path.isfile(new_full_file_path):
-                    shutil.copy2(full_file_path, new_full_file_path)
-                else:
-                    print('Такой файл существует: ', new_full_file_path)
+                count += 1
+        return count
 
 
-paths = os.path.dirname(__file__) + '\\icons'
-path_normalized = os.path.normpath(paths)
-target_folder = os.path.dirname(__file__) + '\\icons_by_year'
-target_folder_normalized = os.path.normpath(target_folder)
+if __name__ == '__main__':
+    paths = os.path.dirname(__file__) + '\\icons'
+    target_folder = os.path.dirname(__file__) + '\\icons_by_year'
 
-sorter = FileManager(path=path_normalized, target_path=target_folder_normalized)
-sorter.sorted_folder_to_date()
+    sorter = FileManager(path=paths, target_path=target_folder)
+    sorter.sorted()
 
-print('Файлы успешно отсортированы')
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
