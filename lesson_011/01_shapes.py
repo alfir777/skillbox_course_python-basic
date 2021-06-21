@@ -14,8 +14,22 @@ import simple_draw as sd
 
 
 def get_polygon(n):
-    pass
-    # TODO здесь ваш код
+    def draw_figure(point, angle, length):
+        side_count = n
+        vector = point
+        angle_step = 360 / side_count
+        step = angle_step
+        for side in range(side_count):
+            if side == 0:
+                vector = sd.get_vector(start_point=vector, angle=angle, length=length + 3)
+            elif side == side_count - 1:
+                sd.line(vector.end_point, point)
+                break
+            else:
+                vector = sd.get_vector(start_point=vector.end_point, angle=angle + step, length=length)
+                step += angle_step
+            vector.draw()
+    return draw_figure
 
 
 draw_triangle = get_polygon(n=3)
