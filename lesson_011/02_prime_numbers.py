@@ -48,32 +48,33 @@ class PrimeNumbers:
         raise StopIteration()
 
 
-if __name__ == '__main__':
-    prime_number_iterator = PrimeNumbers(n=10000)
-    for number in prime_number_iterator:
-        print(number)
+# if __name__ == '__main__':
+#     prime_number_iterator = PrimeNumbers(n=10000)
+#     for number in prime_number_iterator:
+#         print(number)
 
 
-# TODO после подтверждения части 1 преподователем, можно делать
 # Часть 2
 # Теперь нужно создать генератор, который выдает последовательность простых чисел до n
 # Распечатать все простые числа до 10000 в столбик
 
 
-# def prime_numbers_generator(n):
-#     prime_numbers = []
-#     for number in range(2, n+1):
-#         for prime in prime_numbers:
-#             if number % prime == 0:
-#                 break
-#         else:
-#             prime_numbers.append(number)
-#     return prime_numbers
-#
-#
-# if __name__ == '__main__':
-#     for number in prime_numbers_generator(n=10000):
-#         print(number)
+def prime_numbers_generator(n):
+    prime_numbers = []
+    for number in range(2, n+1):
+        for prime in prime_numbers:
+            if number % prime == 0:
+                break
+        else:
+            prime_numbers.append(number)
+            yield number
+    return prime_numbers
+
+
+if __name__ == '__main__':
+    number_generator = prime_numbers_generator(n=10000)
+    for number in number_generator:
+        print(number)
 
 
 # Часть 3
