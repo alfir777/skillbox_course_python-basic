@@ -71,12 +71,12 @@ def prime_numbers_generator(n):
     return prime_numbers
 
 
-if __name__ == '__main__':
-    number_generator = prime_numbers_generator(n=10000)
-    for number in number_generator:
-        print(number)
+# if __name__ == '__main__':
+#     number_generator = prime_numbers_generator(n=10000)
+#     for number in number_generator:
+#         print(number)
 
-
+#
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:
 # 1) "счастливое" в обыденном пониманиии - сумма первых цифр равна сумме последних
@@ -92,3 +92,36 @@ if __name__ == '__main__':
 # простых счастливых палиндромных чисел и так далее. Придумать не менее 2х способов.
 #
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
+
+def sum_number(number):
+    summ=0
+    for n in number:
+        summ += int(n)
+    return summ
+
+
+def happy_prime_numbers_generator(n):
+    for number in prime_numbers_generator(n):
+        size_number = len(str(number))
+        if size_number % 2 == 1 and size_number > 1:
+            size = size_number // 2
+            left_number = str(number)[0:size]
+            right_number = str(number)[size+1:size_number]
+            left_number_sum = sum_number(left_number)
+            right_number_sum = sum_number(right_number)
+            if left_number_sum == right_number_sum:
+                yield number
+        elif size_number > 1:
+            size = size_number // 2
+            left_number = str(number)[0:size]
+            right_number = str(number)[size:size_number]
+            left_number_sum = sum_number(left_number)
+            right_number_sum = sum_number(right_number)
+            if left_number_sum == right_number_sum:
+                yield number
+
+
+if __name__ == '__main__':
+    number_generator = happy_prime_numbers_generator(n=100000)
+    for number in number_generator:
+        print(number)
