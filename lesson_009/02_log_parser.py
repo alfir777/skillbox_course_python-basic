@@ -25,13 +25,11 @@ class Log_parser:
 
     def __init__(self, file_name):
         self.file_name = file_name
-        self.all_letters = set()
         self.all_timers_count = {}
 
     def collect(self):
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
-                self.all_letters.add(line)
                 if line[1:17] in self.all_timers_count and line[-4:-1] == 'NOK':
                     self.all_timers_count[line[1:17]] += 1
                     self.count_letter += 1
