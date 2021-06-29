@@ -9,8 +9,15 @@
 
 
 def log_errors(func):
-    pass
-    # TODO здесь ваш код
+    def surrogate(*args, **kwargs):
+        file = open(file='function_errors.log', mode='a', encoding='utf-8')
+        try:
+            res = func(*args, **kwargs)
+            return res
+        except Exception as exc:
+            file.write(f'Error: {func.__name__:<10} {exc}\n')
+        file.close()
+    return surrogate
 
 
 # Проверить работу на следующих функциях
