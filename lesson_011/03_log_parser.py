@@ -25,11 +25,10 @@ def log_parser(file_name=None):
             if previous_line == '':
                 previous_line = line_left
             if previous_line != line_left:
-                group_time = previous_line
-                event_count = event_count_nok
+                count = event_count_nok
                 event_count_nok = 0
                 previous_line = line_left
-                yield group_time, event_count
+                yield previous_line, count
             if line_right == 'NOK':
                 event_count_nok += 1
 
