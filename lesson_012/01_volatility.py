@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
+import time
+
 
 # Описание предметной области:
 #
@@ -73,4 +76,78 @@
 #     def run(self):
 #         <обработка данных>
 
-# TODO написать код в однопоточном/однопроцессорном стиле
+
+def time_track(func):
+    def surrogate(*args, **kwargs):
+        started_at = time.time()
+
+        result = func(*args, **kwargs)
+
+        ended_at = time.time()
+        elapsed = round(ended_at - started_at, 4)
+        print(f'Функция работала {elapsed} секунд(ы)')
+        return result
+    return surrogate
+
+
+class SorterTrades:
+
+    def __init__(self, path):
+        if os.path.exists(path):
+            self.path = os.path.normpath(path)
+        else:
+            print('Не указана начальная папка')
+        self.trades = {}
+        self.trades_list = []
+
+    @time_track
+    def run(self):
+        for dir_path, dir_names, filenames in os.walk(self.path):
+            for file in filenames:
+                full_file_path = os.path.join(dir_path, file)
+                with open(full_file_path, 'r', encoding='utf8') as file:
+                    previous_price = 0
+                    max_price = 0
+                    min_price = 0
+                    for line in file:
+                        sec_id, trade_time, price, quantity = line.split(',')
+                        if price.isalpha():
+                            continue
+                        price = float(price)
+                        if previous_price <= price:
+                            max_price = price
+                        else:
+                            min_price = price
+                        previous_price = price
+                    average_price = round(((max_price + min_price) / 2), 2)
+                    volatility = round((((max_price - min_price) / average_price) * 100), 2)
+                    self.trades[sec_id] = volatility
+
+    def sorted(self):
+        self.trades_list = list(self.trades.items())
+        self.trades_list.sort(key=lambda i: i[1])
+
+
+if __name__ == '__main__':
+    path = os.path.dirname(__file__) + '\\trades'
+    sorter_trades = SorterTrades(path=path)
+    sorter_trades.run()
+    sorter_trades.sorted()
+    print('Максимальная волатильность:')
+    print(sorter_trades.trades_list[-3][0], sorter_trades.trades_list[-3][1])
+    print(sorter_trades.trades_list[-2][0], sorter_trades.trades_list[-2][1])
+    print(sorter_trades.trades_list[-1][0], sorter_trades.trades_list[-1][1])
+    print('Минимальная волатильность:')
+    count = 3
+    for i in sorter_trades.trades_list:
+        i = list(i)
+        if not i[1] == 0.0:
+            print(i[0], i[1])
+            count -= 1
+        if count == 0:
+            break
+    print('Нулевая волатильность:')
+    for i in sorter_trades.trades_list:
+        i = list(i)
+        if i[1] == 0.0:
+            print(i[0], i[1])
