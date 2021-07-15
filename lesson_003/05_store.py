@@ -56,8 +56,3 @@ for product_name, product_code in goods.items():
         product_cost += position['price'] * position['quantity']
 
     print(product_name, '-', product_quantity, ' шт, стоимость', product_cost, 'руб')
-
-
-
-
-

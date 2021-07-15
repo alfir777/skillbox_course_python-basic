@@ -2,7 +2,6 @@
 
 # (определение функций)
 import random
-
 import simple_draw
 
 # Написать функцию отрисовки смайлика в произвольной точке экрана
@@ -43,8 +42,8 @@ def smile(x, y, color=simple_draw.COLOR_ORANGE):
 
 
 for _ in range(10):
-    x = random.randint(50, 550)
-    y = random.randint(50, 550)
-    smile(x=x, y=y, color=simple_draw.COLOR_CYAN)
+    x_r = random.randint(50, 550)
+    y_r = random.randint(50, 550)
+    smile(x=x_r, y=y_r, color=simple_draw.COLOR_CYAN)
 
 simple_draw.pause()

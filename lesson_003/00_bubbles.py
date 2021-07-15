@@ -16,11 +16,11 @@ for _ in range(3):
 
 # Написать функцию рисования пузырька, принммающую 2 (или более) параметра: точка рисовании и шаг
 # PEP8
-def bubble(point1, step1):
+def bubble(point, step):
     radius1 = 50
     for _ in range(3):
-        radius1 += step1
-        sd.circle(center_position=point1, radius=radius1)
+        radius1 += step
+        sd.circle(center_position=point, radius=radius1)
 
 
 # Нарисовать 10 пузырьков в ряд
