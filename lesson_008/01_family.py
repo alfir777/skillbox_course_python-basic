@@ -71,6 +71,7 @@ class HuMen:
         self.fullness = 30
         self.happy = 100
         self.house = None
+        self.life = True
 
     def __str__(self):
         return 'Я - {}, сытость {}'.format(
@@ -107,8 +108,9 @@ class HuMen:
 
 class Husband(HuMen):
 
-    def __init__(self, name):
+    def __init__(self, name, salary):
         super().__init__(name)
+        self.salary = salary
 
     def __str__(self):
         return super().__str__()
@@ -116,9 +118,11 @@ class Husband(HuMen):
     def act(self):
         if self.fullness <= 0:
             cprint('{} умер...'.format(self.name), color='red')
+            self.life = False
             return
         if self.happy < 10:
             cprint('{} умер от депресии...'.format(self.name), color='red')
+            self.life = False
             return
         dice = randint(1, 2)
         if self.fullness < 20:
@@ -135,8 +139,8 @@ class Husband(HuMen):
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='blue')
-        self.house.money += 150
-        self.house.money_rate += 150
+        self.house.money += self.salary
+        self.house.money_rate += self.salary
         self.fullness -= 10
 
     def gaming(self):
@@ -157,9 +161,11 @@ class Wife(HuMen):
     def act(self):
         if self.fullness <= 0:
             cprint('{} умерла...'.format(self.name), color='red')
+            self.life = False
             return
         if self.happy < 10:
             cprint('{} умерла от депресии...'.format(self.name), color='red')
+            self.life = False
             return
         if self.fullness < 20:
             self.eat()
@@ -211,7 +217,7 @@ class Wife(HuMen):
 def main1():
     if __name__ == "__main__":
         home1 = House()
-        serge1 = Husband(name='Сережа')
+        serge1 = Husband(name='Сережа', salary=150)
         serge1.go_to_the_house(house=home1)
         masha1 = Wife(name='Маша')
         masha1.go_to_the_house(house=home1)
@@ -259,6 +265,7 @@ class Cat:
         self.name = name
         self.house = None
         self.fullness = 30
+        self.life = True
 
     def __str__(self):
         return 'Я - {}, сытость {}'.format(
@@ -267,6 +274,7 @@ class Cat:
     def act(self):
         if self.fullness <= 0:
             cprint('{} умерла...'.format(self.name), color='red')
+            self.life = False
             return
         dice = randint(1, 2)
         if self.fullness < 20:
@@ -299,7 +307,7 @@ class Cat:
 def main2():
     if __name__ == "__main__":
         home2 = House()
-        serge2 = Husband(name='Сережа')
+        serge2 = Husband(name='Сережа', salary=150)
         serge2.go_to_the_house(house=home2)
         masha2 = Wife(name='Маша')
         masha2.go_to_the_house(house=home2)
@@ -344,6 +352,7 @@ class Child(HuMen):
     def act(self):
         if self.fullness <= 0:
             cprint('{} умер...'.format(self.name), color='red')
+            self.life = False
             return
         if self.fullness < 20:
             self.eat()
@@ -367,7 +376,7 @@ class Child(HuMen):
 def main2_master():
     if __name__ == "__main__":
         home22 = House()
-        serge22 = Husband(name='Сережа')
+        serge22 = Husband(name='Сережа', salary=150)
         serge22.go_to_the_house(house=home22)
         masha22 = Wife(name='Маша')
         masha22.go_to_the_house(house=home22)
@@ -400,55 +409,62 @@ def main2_master():
 # отправить на проверку учителем.
 
 
-def emulate_life(max_cats, food_incidents, money_incidents):
-    if __name__ == "__main__":
-        home = House()
-        serge = Husband(name='Сережа')
-        serge.go_to_the_house(house=home)
-        masha = Wife(name='Маша')
-        masha.go_to_the_house(house=home)
-        baby = Child(name='Ребенок')
-        baby.go_to_the_house(house=home)
-        cat_names = ['Мурзик', 'Барсик', 'Борис',
-                     'Альфа', 'Бета', 'Гамма', 'Эпсилон',
-                     'Ньютон', 'Эйнштейнн', 'Паскаль', ]
-        cats = [Cat(name=choice(cat_names)) for _ in range(max_cats)]
-        for cat in cats:
-            go_to_the_house_cat(cat=cat, house=home)
+def emulate_life(max_cats=3, salary=50, money_incidents=5, food_incidents=5):
+    home = House()
+    serge = Husband(name='Сережа', salary=salary)
+    serge.go_to_the_house(house=home)
+    masha = Wife(name='Маша')
+    masha.go_to_the_house(house=home)
+    baby = Child(name='Ребенок')
+    baby.go_to_the_house(house=home)
+    cat_names = ['Мурзик', 'Барсик', 'Борис',
+                 'Альфа', 'Бета', 'Гамма', 'Эпсилон',
+                 'Ньютон', 'Эйнштейнн', 'Паскаль', ]
+    cats = [Cat(name=choice(cat_names)) for _ in range(max_cats)]
+    for cat in cats:
+        go_to_the_house_cat(cat=cat, house=home)
 
-        for day in range(365):
-            cprint('================== День {} =================='.format(day), color='red')
-            serge.act()
-            masha.act()
-            baby.act()
-            for cat in cats:
-                cat.act()
-            cprint(serge, color='cyan')
-            cprint(masha, color='cyan')
-            cprint(baby, color='cyan')
-            for cat in cats:
-                cprint(cat, color='cyan')
-            if food_incidents > 0:
-                fail_day_food_incidents = randint(1, 30)
-                if fail_day_food_incidents == 4 and food_incidents > 0:
-                    home.food //= 2
-                    food_incidents -= 1
-                    cprint('Пропадает половина еды из холодильника (коты?)', color='red')
-            if money_incidents > 0:
-                fail_money_incidents = randint(1, 30)
-                if fail_money_incidents == 13 and money_incidents > 0:
-                    home.money //= 2
-                    money_incidents -= 1
-                    cprint('Пропадает половина денег из тумбочки (муж? жена? коты?!?!)', color='red')
-            cprint(home, color='cyan')
-        cprint('-' * 70, color='red')
-        cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
-            home.money_rate, home.food_rate, masha.coat_rate), color='red')
-        cprint('-' * 70, color='red')
+    for day in range(365):
+        cprint('================== День {} =================='.format(day), color='red')
+        serge.act()
+        masha.act()
+        baby.act()
+        for cat in cats:
+            cat.act()
+        if not serge.life or not masha.life or not baby.life:
+            cprint('Эксперимент провален')
+            break
+        for cat in cats:
+            cat.act()
+            if not cat.life:
+                cprint('Эксперимент провален')
+                break
+        cprint(serge, color='cyan')
+        cprint(masha, color='cyan')
+        cprint(baby, color='cyan')
+        for cat in cats:
+            cprint(cat, color='cyan')
+        if food_incidents > 0:
+            fail_day_food_incidents = randint(1, 30)
+            if fail_day_food_incidents == 4 and food_incidents > 0:
+                home.food //= 2
+                food_incidents -= 1
+                cprint('Пропадает половина еды из холодильника (коты?)', color='red')
+        if money_incidents > 0:
+            fail_money_incidents = randint(1, 30)
+            if fail_money_incidents == 13 and money_incidents > 0:
+                home.money //= 2
+                money_incidents -= 1
+                cprint('Пропадает половина денег из тумбочки (муж? жена? коты?!?!)', color='red')
+        cprint(home, color='cyan')
+    cprint('-' * 70, color='red')
+    cprint('ИТОГО: заработано денег {}, сьедено еды {}, куплено шуб {}'.format(
+        home.money_rate, home.food_rate, masha.coat_rate), color='red')
+    cprint('-' * 70, color='red')
 
 
 if __name__ == '__main__':
-    emulate_life(max_cats=3, food_incidents=5, money_incidents=5)
+    emulate_life(max_cats=2, salary=400, money_incidents=2, food_incidents=2)
 
 #
 # Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
