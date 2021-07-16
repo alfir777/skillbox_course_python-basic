@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import os, time, shutil
+import os
+import shutil
+import time
+import zipfile
 from contextlib import closing
 from tqdm import tqdm
 
@@ -40,7 +43,7 @@ from tqdm import tqdm
 
 class FileManager:
 
-    def __init__(self, path=None, file=None, target_path=None):
+    def __init__(self, path=None, target_path=None):
         if path:
             self.path = os.path.normpath(path)
         else:
@@ -53,7 +56,7 @@ class FileManager:
 
     def sorted(self):
 
-        with closing(tqdm(total=self.count_file)) as pbar:
+        with closing(tqdm(total=self.count_file)) as p_bar:
             for dir_path, dir_names, filenames in os.walk(self.path):
                 for file in filenames:
                     full_file_path = os.path.join(dir_path, file)
@@ -66,26 +69,53 @@ class FileManager:
                     new_full_file_path = os.path.join(new_folder_normalized, file)
                     if not os.path.isfile(new_full_file_path):
                         shutil.copy2(full_file_path, new_full_file_path)
-                    # else:
-                    #     print('Такой файл существует: ', new_full_file_path)
-                    pbar.update(1)
+                    p_bar.update(1)
             print('Файлы успешно отсортированы')
 
     def count_files(self):
         count = 0
         for dir_path, dir_names, filenames in os.walk(self.path):
-            for file in filenames:
+            for _ in filenames:
                 count += 1
         return count
 
 
+class FileManagerZip:
+
+    def __init__(self, file=None, target_path=None):
+        if os.path.isfile(file):
+            self.file = os.path.normpath(file)
+        else:
+            print('Не указан файл')
+        if os.path.exists(target_path):
+            self.target_path = os.path.normpath(target_path)
+        else:
+            os.mkdir(target_path)
+            self.target_path = os.path.normpath(target_path)
+
+    def run(self):
+        with zipfile.ZipFile(self.file) as zip_file:
+            for zip_info in zip_file.infolist():
+                if zip_info.filename[-1] == '/':
+                    continue
+                new_folder = self.target_path + '\\' + str(zip_info.date_time[0]) + '\\' + str(zip_info.date_time[1])
+                new_folder_normalized = os.path.normpath(new_folder)
+                if not os.path.isdir(new_folder_normalized):
+                    os.makedirs(new_folder_normalized)
+                new_full_file_path = new_folder_normalized
+                zip_file.extract(zip_info, new_full_file_path)
+        print('Файлы успешно отсортированы')
+
+
 if __name__ == '__main__':
-    paths = os.path.dirname(__file__) + '\\icons'
-    target_folder = os.path.dirname(__file__) + '\\icons_by_year'
-
-    sorter = FileManager(path=paths, target_path=target_folder)
-    sorter.sorted()
-
+    file_or_path = 'icons.zip'
+    target_folder = os.path.dirname(__file__) + '\\icons'
+    if os.path.isfile(file_or_path):
+        sorter = FileManagerZip(file=file_or_path, target_path=target_folder)
+        sorter.run()
+    else:
+        sorter = FileManager(path=file_or_path, target_path=target_folder)
+        sorter.sorted()
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
