@@ -48,22 +48,33 @@ class CheckRegistration:
         self.registrations_good.close()
         self.registrations_bad.close()
 
-    def check_name(self, name):
-        pass
-        # if not name.isalpha():
-        #     self.registrations_bad.write(f'В строке {count_line} поле имени содержит НЕ только буквы: {line}')
-
     def parser(self):
         self.open_file()
         count_line = 0
         for line in self.incoming_file:
             count_line += 1
-            # TODO
-        #     try:
-        #         name, email, age = line.split(' ')
-        #         check_name = self.check_name(name)
-        #      except ValueError:
-        #         self.registrations_bad.write(f'В строке {count_line} НЕ присутсвуют все три поля: {line}')
+            try:
+                name, email, age = line.split(' ')
+                if not name and not email and not age:
+                    raise ValueError
+                elif not name.isalpha():
+                    raise NotNameError
+                elif not email.find('@') and not email.find('.'):
+                    raise NotEmailError
+                elif 10 < int(age) > 99:
+                    raise ValueError
+                else:
+                    self.registrations_good.write(f'{line}')
+            except ValueError:
+                if not name and not email and not age:
+                    self.registrations_bad.write(f'В строке {count_line} НЕ присутсвуют все три поля: {line}')
+                else:
+                    self.registrations_bad.write(
+                        f'В строке {count_line} поле возраст НЕ является числом от 10 до 99: {line}')
+            except NotNameError:
+                self.registrations_bad.write(f'В строке {count_line} поле имени содержит НЕ только буквы: {line}')
+            except NotEmailError:
+                self.registrations_bad.write(f'В строке {count_line} поле емейл НЕ содержит @ и .(точку): {line}')
         self.close_file()
 
 
