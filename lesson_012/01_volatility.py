@@ -117,12 +117,6 @@ class SorterTrades:
             self.trades[sec_id] = volatility
         return self.trades
 
-    def sorted(self):
-        self.trades_list = list(self.trades.items())
-        self.trades_list.sort(key=lambda i: i[1])
-        print(type(self.trades_list))
-        return self.trades_list
-
 
 @time_track
 def main():

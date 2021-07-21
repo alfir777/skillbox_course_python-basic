@@ -63,27 +63,23 @@ class SorterTrades(Thread):
             self.trades[sec_id] = volatility
         return self.trades
 
-    def sorted(self):
-        self.trades_list = list(self.trades.items())
-        self.trades_list.sort(key=lambda i: i[1])
-        print(type(self.trades_list))
-        return self.trades_list
-
 
 @time_track
 def main():
     path = os.path.dirname(__file__) + '\\trades'
     trades_dict = {}
+    sorter_trades = []
     for dir_path, dir_names, filenames in os.walk(path):
         for file in filenames:
             full_file_path = os.path.join(dir_path, file)
-            sorter_trades = SorterTrades(file=full_file_path)
-            sorter_trade = sorter_trades.run()
-            for k, v in sorter_trade.items():
-                trades_dict[k] = v
-    sort_trades_dict = sorted(trades_dict.items(), key=lambda i: i[1])
-    print(trades_dict)
-    print(sort_trades_dict)
+            sorter_trades.append(SorterTrades(file=full_file_path))
+    for sorter_trade in sorter_trades:
+        sorter_trade.start()
+    for sorter_trade in sorter_trades:
+        sorter_trade.join()
+    for sorter_trade in sorter_trades:
+        for key, value in sorter_trade.trades.items():
+            trades_dict[key] = value
 
     print('Нулевая волатильность:')
     min_val = 0
