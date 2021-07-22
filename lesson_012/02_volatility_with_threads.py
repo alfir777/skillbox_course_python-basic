@@ -37,8 +37,8 @@ def time_track(func):
 
 class SorterTrades(Thread):
 
-    def __init__(self, file):
-        super().__init__()
+    def __init__(self, file, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.file = os.path.normpath(file)
         self.trades = {}
         self.trades_list = []
